@@ -6,7 +6,7 @@ info:
       url: https://raw.githubusercontent.com/UANATACA/ONESHOT-REPO/main/img/oneshot_logo.png?token=ATF574UWGCYOZPK5RIPMLJ3ALW6HA
       altText: Oneshot logo
   description: 
-    $ref: ./oneshot_gui.md
+    $ref: ./oneshot_classic_gui.md
 
 host: one-shot.developers.uanataca.com
 schemes: 

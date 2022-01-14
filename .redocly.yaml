@@ -1,5 +1,5 @@
 apiDefinitions:
-  main: oneshot.yaml
+  main: oneshot_classic.yaml
 referenceDocs:
   hideDownloadButton: true
   showConsole: false
