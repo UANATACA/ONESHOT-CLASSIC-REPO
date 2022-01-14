@@ -25,7 +25,7 @@ The electronic signatures are performed in Uanataca Trusted Service Center side,
 </div>
 <br></br>
 
-![img](https://github.com/UANATACA/ONESHOT-REPO/raw/main/img/oneshot-hiw.png)
+![img](https://github.com/UANATACA/ONESHOT-CLASSIC-REPO/raw/main/img/oneshot-hiw.png)
 
 
 # Flow chart
@@ -41,7 +41,7 @@ The following images summarize One-Shot Signature flow involving both authentica
 
 > Uanataca SMS
 
-![img](https://github.com/UANATACA/ONESHOT-REPO/raw/main/img/oneshot_flc1.png)
+![img](https://github.com/UANATACA/ONESHOT-CLASSIC-REPO/raw/main/img/oneshot_flc1.png)
 
 </br>
 
@@ -66,7 +66,7 @@ The following images summarize One-Shot Signature flow involving both authentica
 > Other authentication methods
 
 
-![img](https://github.com/UANATACA/ONESHOT-REPO/raw/main/img/oneshot_flc2.png)
+![img](https://github.com/UANATACA/ONESHOT-CLASSIC-REPO/raw/main/img/oneshot_flc2.png)
 
 </br>
 
@@ -121,7 +121,7 @@ See the configuration description in:<br>
 
 This configuration requires a server with a Linux CentOS operating system.
 
-<a href="#section/Video-tutorials/Docker-Optimizer-Configuration"><img src="https://raw.githubusercontent.com/UANATACA/ONESHOT-REPO/main/img4.png"></a><a href="#section/Video-tutorials/Docker-Optimizer-Configuration"><b>&nbsp;Watch on video!</b></a>
+<a href="#section/Video-tutorials/Docker-Optimizer-Configuration"><img src="https://raw.githubusercontent.com/UANATACA/ONESHOT-CLASSIC-REPO/main/img4.png"></a><a href="#section/Video-tutorials/Docker-Optimizer-Configuration"><b>&nbsp;Watch on video!</b></a>
 
 
 > STEP 1: Install Docker and Docker-Compose.
@@ -150,7 +150,7 @@ Run the following commands in this order.
 Run command **docker-compose version** to check the installation. The outcome should show this information:
 
 
-![img](https://github.com/UANATACA/ONESHOT-REPO/raw/main/img/oneshot-docker1.png)
+![img](https://github.com/UANATACA/ONESHOT-CLASSIC-REPO/raw/main/img/oneshot-docker1.png)
 
 </br>
 
@@ -162,7 +162,7 @@ Move One-Shot Optimizer folder to the path **/opt** in the server.
 
 The outcome should look like this:
 
-![img](https://github.com/UANATACA/ONESHOT-REPO/raw/main/img/oneshot-docker2.png)
+![img](https://github.com/UANATACA/ONESHOT-CLASSIC-REPO/raw/main/img/oneshot-docker2.png)
 
 
 </br>
@@ -175,7 +175,7 @@ In high performance environments with a pool of One-Shot Optimizer, service sett
 
 Docker-compose.yml settings file:
 
-![img](https://github.com/UANATACA/ONESHOT-REPO/raw/main/img/oneshot-docker3.png)
+![img](https://github.com/UANATACA/ONESHOT-CLASSIC-REPO/raw/main/img/oneshot-docker3.png)
 
 </br>
 
@@ -245,7 +245,7 @@ Then restart network services with command **service network restart**.
 
 Example:
 
-![img](https://github.com/UANATACA/ONESHOT-REPO/raw/main/img/oneshot-docker4.png)
+![img](https://github.com/UANATACA/ONESHOT-CLASSIC-REPO/raw/main/img/oneshot-docker4.png)
 
 </br>
 
@@ -320,7 +320,7 @@ You should have received a certificate (.cer) and key (.key) file to be used to 
 
 **/opt/bit4id/oneshot_optimizer/etc/certs** (Virtual Machine)
 
-![img](https://github.com/UANATACA/ONESHOT-REPO/raw/main/img/oneshot-docker5.png)
+![img](https://github.com/UANATACA/ONESHOT-CLASSIC-REPO/raw/main/img/oneshot-docker5.png)
 
 Open the custom.ini file in /opt/bit4id/oneshot_optimizer/etc and configure it to interact with the production environment. The parts that you will likely need to change are listed below:
 
@@ -382,7 +382,7 @@ Docker:
 
 This section presents the workflow for a simple use case of the One-Shot Signature service with a step-by-step description of the API calls required to allow a user to digitally sign a document provided by the client application. 
 
-<a href="#section/Video-tutorials/Signature-Workflow-(SMS)"><img src="https://raw.githubusercontent.com/UANATACA/ONESHOT-REPO/main/img4.png"></a><a href="#section/Video-tutorials/Signature-Workflow-(SMS)"><b>&nbsp;Watch on video!</b></a>
+<a href="#section/Video-tutorials/Signature-Workflow-(SMS)"><img src="https://raw.githubusercontent.com/UANATACA/ONESHOT-CLASSIC-REPO/main/img4.png"></a><a href="#section/Video-tutorials/Signature-Workflow-(SMS)"><b>&nbsp;Watch on video!</b></a>
 
 The basic digital signature process involves the following steps:
 
