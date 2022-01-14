@@ -1,0 +1,2563 @@
+swagger: '2.0'
+info:
+  version: 'v1'
+  title: UANATACA ONE-SHOT SIGNATURE API DOCUMENTATION
+  x-logo:
+      url: https://raw.githubusercontent.com/UANATACA/ONESHOT-REPO/main/img/oneshot_logo.png?token=ATF574UWGCYOZPK5RIPMLJ3ALW6HA
+      altText: Oneshot logo
+  description: 
+    $ref: ./oneshot_gui.md
+
+host: one-shot.developers.uanataca.com
+schemes: 
+  - https
+
+x-tagGroups:
+  - name: API Reference
+    tags:
+      - Tokens
+      - Requests
+      - Documents
+      - Images
+
+tags:
+- name: "Tokens"
+  description: "
+  
+<html>
+A token is a string that can be used in place of the Registration Authority Officer (RAO) credentials.</br>
+<table>
+  <tr>
+    <th>Method</th><th>Endpoint</th><th>Action</th>
+  </tr>
+  <tr>
+    <td>POST</td><td><a href='#tag/Tokens/paths/~1api~1v1~1token/post'>/token</a></td><td>Create a new token</td>
+  </tr>
+  <tr>
+    <td>GET</td><td><a href='#tag/Tokens/paths/~1api~1v1~1token~1{uid}/get'>/token/{pk}</a></td><td>Retrieve a token</td>
+  </tr>
+  <tr>
+    <td>DELETE</td><td><a href='#tag/Tokens/paths/~1api~1v1~1token~1{uid}/delete'>/token/{uid}</a></td><td>Delete a token</td>
+  </tr>
+ <tr>
+    <td>GET</td><td><a href='#tag/Tokens/paths/~1api~1v1~1tokens/get'>/tokens</a></td><td>List all available tokens</td>
+  </tr>
+</table> 
+</html>
+  "
+- name: "Requests"
+  description: "
+  
+<html>
+A digital signature request contains user identification data and associated documents to be signed.</br>
+<table>
+  <tr>
+    <th>Method</th><th>Endpoint</th><th>Action</th>
+  </tr>
+  <tr>
+    <td>POST</td><td><a href='#tag/Requests/paths/~1api~1v1~1request/post'>/request</a></td><td>Create a new request</td>
+  </tr>
+  <tr>
+    <td>GET</td><td><a href='#tag/Requests/paths/~1api~1v1~1request~1{pk}/get'>/request/{pk}</a></td><td>Retrieve a new request</td>
+  </tr>
+  <tr>
+    <td>POST</td><td><a href='#tag/Requests/paths/~1api~1v1~1otp~1{pk}/post'>/otp/{pk}</a></td><td>Generate a new OTP</td>
+  </tr>
+  <tr>
+    <td>POST</td><td><a href='#tag/Requests/paths/~1api~1v1~1sign~1{pk}/post'>/sign/{pk}</a></td><td>Start the signature process</td>
+  </tr>
+</table> 
+</br> 
+</html>
+  "
+- name: "Documents"
+  description: "
+  
+<html>
+Manage documents associated to a signature request.</br>
+<table>
+  <tr>
+    <th>Method</th><th>Endpoint</th><th>Action</th>
+  </tr>
+  <tr>
+    <td>POST</td><td><a href='#tag/Documents/paths/~1api~1v1~1document~1{pk}/post'>/document/{pk}</a></td><td>Upload a document to be signed</td>
+  </tr>
+  <tr>
+    <td>GET</td><td><a href='#tag/Documents/paths/~1api~1v1~1document~1{pk}~1{type}~1{docid}/get'>/document/{pk}/{type}/{uid}</a></td><td>Retrieve a document</td>
+  </tr>
+  <tr>
+    <td>DELETE</td><td><a href='#tag/Documents/paths/~1api~1v1~1document~1{pk}~1{type}~1{docid}/delete'>/document/{pk}/{type}/{uid}</a></td><td>Delete a document</td>
+  </tr>
+  <tr>
+    <td>GET</td><td><a href='#tag/Documents/paths/~1api~1v1~1documents~1{pk}/get'>/documents/{pk}</a></td><td>List all request's documents</td>
+  </tr>
+  <tr>
+    <td>DELETE</td><td><a href='#tag/Documents/paths/~1api~1v1~1documents~1{pk}/delete'>/documents/{pk}</a></td><td>Delete all requests's documents</td>
+  </tr>
+  <tr>
+    <td>GET</td><td><a href='#tag/Documents/paths/~1api~1v1~1document~1{pk}~1contract/get'>/document/{pk}/contract</a></td><td>Retrieve the service contract</td>
+  </tr>
+</table> 
+</br> 
+</html>
+  "
+- name: "Images"
+  description: "
+  
+<html>
+Manage images associated to a visual graphic signature placed in the signed document.</br>
+<table>
+  <tr>
+    <th>Method</th><th>Endpoint</th><th>Action</th>
+  </tr>
+  <tr>
+    <td>POST</td><td><a href='#tag/Images/paths/~1api~1v1~1image/post'>/image</a></td><td>Upload a new image</td>
+  </tr>
+  <tr>
+    <td>GET</td><td><a href='#tag/Images/paths/~1api~1v1~1image~1{uid}/get'>/image/{uid}</a></td><td>Retrieve an image</td>
+  </tr>
+  <tr>
+    <td>DELETE</td><td><a href='#tag/Images/paths/~1api~1v1~1image~1{uid}/delete'>/image/{uid}</a></td><td>Delete an image</td>
+  </tr>
+  <tr>
+    <td>GET</td><td><a href='#tag/Images/paths/~1api~1v1~1images/get'>/images</a></td><td>List all uploaded images</td>
+  </tr>
+  <tr>
+    <td>DELETE</td><td><a href='#tag/Images/paths/~1api~1v1~1images/delete'>/images</a></td><td>Delete all uploaded images</td>
+  </tr>
+</table> 
+</br> 
+</html>
+  "
+  
+paths:
+
+###### tokens ######
+###############################################################################
+
+  /api/v1/token:
+    post: 
+      summary: CREATE TOKEN
+      tags:
+        - Tokens
+      description: Creates a new token that contains the Registration Authority Officer (RAO) credentials.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+      - in: "body"
+        name: "body"
+        schema:
+          $ref: "#/definitions/TokenObject"
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: string
+                description: the created token number
+          examples:
+            application/json:
+              {
+                  "status": "200 OK",
+                  "details": "a44765ab8ca04e429a565f02d22179a0"
+              }
+        400:
+          description: Invalid JSON
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                description: Invalid JSON
+              description: 
+                type: string
+                description: The response error message  
+          examples:
+            application/json:
+              {
+                  "status": "Invalid JSON",
+                  "details": "Could not parse JSON body – Invalid control character at: line 4 column 24 (char 82)"
+              }        
+        404:
+          description: Invalid username
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: string
+                description: The response error message  
+          examples:
+            application/json:
+              {
+                  "status": "404 Not Found",
+                  "details": "Error getting RAO's id. Make sure the credentials are correct"
+              }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X POST \
+                    https://one-shot.developers.uanataca.com/api/v1/token \
+                    -H 'Content-Type: application/json' \
+                    -d '{
+                      "username": "5057249",
+                      "password": "Gy6F89xK",
+                      "pin": "t8tr6vkg"
+                    }'
+        - lang: 'JavaScript'
+          source: |
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/token',
+                    {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({
+                        username: '5057249',
+                        password: 'Gy6F89xK',
+                        pin: 't8tr6vkg'
+                      })
+                    }
+                  );
+
+                  const data = await resp.json();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://one-shot.developers.uanataca.com/api/v1/token"
+
+                  payload = {
+                    "username": "5057249",
+                    "password": "Gy6F89xK",
+                    "pin": "t8tr6vkg"
+                  }
+
+                  headers = {"Content-Type": "application/json"}
+
+                  response = requests.post(url, json=payload, headers=headers)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/token',
+                    {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({
+                        username: '5057249',
+                        password: 'Gy6F89xK',
+                        pin: 't8tr6vkg'
+                      })
+                    }
+                  );
+
+                  const data = await resp.json();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+                  using System.Text;
+                  using Newtonsoft.Json.Linq;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        JObject json = JObject.Parse(@"{
+                          username: '5057249',
+                          password: 'Gy6F89xK',
+                          pin: 't8tr6vkg'
+                        }");
+                        var postData = new StringContent(json.ToString(), Encoding.UTF8, "application/json");
+                        var request = await client.PostAsync("https://one-shot.developers.uanataca.com/api/v1/token", postData);
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }       
+  #############
+  /api/v1/token/{uid}:
+    get: 
+      summary: GET TOKEN
+      tags:
+        - Tokens
+      description: "Retrieves the token associated credentials with the given unique identifier.<br>
+                    The response get a `true` or `false` value regarding if password and PIN parameters are associated to the token."
+      produces:
+        - application/json
+      parameters:
+      - in: path
+        name: uid
+        type: string 
+        description: The token unique identifier
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details:
+                description: A JSON object with the user credentials
+                properties:
+                  username: 
+                    type: string
+                  password:
+                    type: boolean
+                  pin:
+                    type: boolean
+          examples:
+            application/json:
+                {
+                    "status": "200 OK",
+                    "details": {
+                        "username": "5057249",
+                        "password": true,
+                        "pin": true
+                    }
+                }
+        404:
+          description: "`uid` not found"
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: string
+                description: The response error message  
+          examples:
+            application/json:
+              {
+                  "status": "404 Not Found",
+                  "details": "Token not found"
+              }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X GET \ 
+                    https://one-shot.developers.uanataca.com/api/v1/token/a44765ab8ca04e429a565f02d22179a0
+        - lang: 'JavaScript'
+          source: |
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/token/a44765ab8ca04e429a565f02d22179a0',
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://one-shot.developers.uanataca.com/api/v1/token/a44765ab8ca04e429a565f02d22179a0"
+
+                  response = requests.get(url)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/token/a44765ab8ca04e429a565f02d22179a0',
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        var request = await client.GetAsync("https://one-shot.developers.uanataca.com/api/v1/token/a44765ab8ca04e429a565f02d22179a0");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }       
+ #############
+    delete:
+      summary: DELETE TOKEN
+      tags:
+        - Tokens
+      description: Deletes the token with the specified unique identifier.
+      produces:
+        - application/json
+      parameters:
+      - in: path
+        name: uid
+        type: string
+        description: The token unique identifier        
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: string
+                description: Successful token deletion confirmation message
+          examples:
+            application/json:
+                {
+                    "status": "200 OK",
+                    "details": "Token deleted successfully"
+                }
+        404:
+          description: "`uid` not found"
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: string
+                description: The response error message  
+          examples:
+            application/json:
+              {
+                  "status": "404 Not Found",
+                  "details": "Token not found"
+              }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X DELETE \
+                    https://one-shot.developers.uanataca.com/api/v1/token/a44765ab8ca04e429a565f02d22179a0
+        - lang: 'JavaScript'
+          source: |
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/token/a44765ab8ca04e429a565f02d22179a0',
+                    {method: 'DELETE'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://one-shot.developers.uanataca.com/api/v1/token/a44765ab8ca04e429a565f02d22179a0"
+
+                  response = requests.delete(url)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/token/a44765ab8ca04e429a565f02d22179a0',
+                    {method: 'DELETE'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        var request = await client.DeleteAsync("https://one-shot.developers.uanataca.com/api/v1/token/a44765ab8ca04e429a565f02d22179a0");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  } 
+  #############
+  /api/v1/tokens:
+    get: 
+      summary: LIST TOKENS
+      tags:
+        - Tokens
+      description: Returns a list of all tokens available and their associated data.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                description: A JSON object with the token id and the user credentials
+                properties:
+                  tokenid:
+                    type: string
+                  username: 
+                    type: string
+                  password:
+                    type: boolean
+                  pin:
+                    type: boolean
+          examples:
+            application/json:
+                {
+                    "status": "200 OK",
+                    "details": {
+                        "b35b97802217598e9fa4b63fcf6b6497": {
+                            "username": "1122338",
+                            "password": true,
+                            "pin": true
+                        },
+                        "2edfa0ff321b6cf09174e1326c40e174": {
+                            "username": "1153349",
+                            "password": true,
+                            "pin": false
+                        }
+                    }
+                } 
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X GET \
+                    https://one-shot.developers.uanataca.com/api/v1/tokens
+        - lang: 'JavaScript'
+          source: |
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/tokens',
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://one-shot.developers.uanataca.com/api/v1/tokens"
+
+                  response = requests.get(url)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/tokens',
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        var request = await client.GetAsync("https://one-shot.developers.uanataca.com/api/v1/tokens");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }
+###### requests ######
+###############################################################################
+
+  /api/v1/request:
+    post:
+      summary: CREATE REQUEST
+      tags:
+        - Requests
+      description: Creates a new digital signature request for the user identified.
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+      - in: formData
+        name: given_name
+        description: The user's given name
+        required: true
+        type: string
+      - in: formData
+        name: surname_1
+        description: The user's first surname
+        required: true
+        type: string
+      - in: formData
+        name: surname_2
+        description: The user's second surname
+        required: true
+        type: string
+      - in: formData
+        name: id_document_type
+        required: true
+        type: string
+        enum: [IDC, PAS, PNO, TIN]
+        description: >
+          Document types allowed for the user identification:
+           * **IDC** - Identification based on national identity card number
+           * **PAS** - Identification based on passport number
+           * **PNO** - Identification based on national personal number (national civic registration number)
+           * **TIN** - Tax Identification Number according to the European Commission
+      - in: formData
+        name: id_document_country
+        description: The user's id document country two-letters code (ISO 3166-1 alpha-2)
+        required: true
+        type: string
+      - in: formData
+        name: serial_number
+        description: Serial number of the user's id document
+        required: true
+        type: string
+      - in: formData
+        name: email
+        description: The user's email
+        required: true
+        type: string
+      - in: formData
+        name: mobile_phone_number
+        description: The user's mobile phone number including the international prefix
+        required: true
+        type: string
+      - in: formData
+        name: registration_authority 
+        description: The Registration Authority id number
+        required: true
+        type: string
+      - in: formData
+        name: profile
+        enum: [PFnubeQAFCiudadano, PFnubeNC]
+        type: string
+        description: >
+          Digital certificate profiles allowed:
+           * **PFnubeQAFCiudadano** - Uanataca's eIDAS qualified digital certificate used for qualified signature in the European Union
+           * **PFnubeNC** - Uanataca's normalized digital certificate used for advanced signature
+        required: true
+      - in: formData
+        name: token
+        description: "The Registration Authority Officer (RAO)'s token unique id containing RAO's digital identity credentials"
+        type: string
+      - in: formData
+        name: username
+        description: The RAO's digital ident username. This field is only required if it's not specified in the token
+        type: string
+      - in: formData
+        name: password
+        description: The RAO's digital identity password. This field is only required if it's not specified in the token
+        type: string
+      - in: formData
+        name: pin
+        description: The RAO's digital identity PIN. This field is only required if it's not specified in the token
+        type: string
+      - in: formData
+        name: document_front
+        description: Front side image of the user's identification document (JPEG or PNG). 
+        type: file
+        required: true
+      - in: formData
+        name: document_rear
+        description: Rear side image of the user's identification document (JPEG or PNG)
+        type: file
+        required: true
+      - in: formData
+        name: document_owner
+        description: A selfie image of the user holding the identifying document below his/her chin (JPEG or PNG).
+        type: file
+      responses:
+        201:
+          description: Successful Response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: number
+                description: The created request id        
+          examples:
+            application/json:
+              {
+                  "status": "201 Created",
+                  "details": 29571
+              }  
+        400:
+          description: Missing parameters
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: string
+                description: The response error message        
+          examples:
+            application/json:
+              { 
+                  "status": "400 Bad Request", 
+                  "details": "Missing Parameters" 
+              }
+        412:
+          description: Missing parameters
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: string
+                description: The response error message        
+          examples:
+            application/json:
+              { 
+                  "status": "412 Precondition Failed", 
+                  "details": "Error occured during request approval: Invalid request fields: mobile_phone_number" 
+              }
+        404:
+          description: Invalid username
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: string
+                description: The response error message        
+          examples:
+            application/json:
+              { 
+                  "status": "404 Not Found", 
+                  "details": "Error getting RAO's id. Make sure the credentials are correct" 
+              }
+        403:
+          description: Invalid PIN or password
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: string
+                description: The response error message        
+          examples:
+            application/json:
+              { 
+                  "status": "404 Not Found", 
+                  "details": "Error getting RAO's id. Make sure the credentials are correct"
+              }
+        500:
+          description: Invalid PIN or password
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: string
+                description: The response error message        
+          examples:
+            application/json:
+              { 
+                  "status": "500 Internal Server Error", 
+                  "details": "You do not have permission to perform this action."
+              }    
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X POST \
+                    https://one-shot.developers.uanataca.com/api/v1/request \
+                    -H 'Content-Type: multipart/form-data' \
+                    -F given_name=John \
+                    -F surname_1=Smith \
+                    -F surname_2=Lopez \
+                    -F id_document_type=IDC \
+                    -F id_document_country=ES \
+                    -F serial_number=12345678A \
+                    -F email=john_smithlop@uanataca.com \
+                    -F mobile_phone_number=+34999999999 \
+                    -F registration_authority=124 \
+                    -F profile=PFnubeQAFCiudadano \
+                    -F token=a44765ab8ca04e429a565f02d22179a0 \
+                    -F username=5057249
+                    -F password=Gy6F89xK \
+                    -F pin=t8tr6vkg \
+                    -F document_front=@sample_folder/img_front.png \
+                    -F document_rear=@sample_folder/img_rear.png \
+                    -F document_owner=@sample_folder/img_selfie.png \
+        - lang: 'JavaScript'
+          source: |
+                  var formdata = new FormData();
+                  formdata.append("given_name", "John");
+                  formdata.append("surname_1", "Smith");
+                  formdata.append("surname_2", "Lopez");
+                  formdata.append("id_document_type", "IDC");
+                  formdata.append("id_document_country", "ES");
+                  formdata.append("serial_number", "12345678A");
+                  formdata.append("email", "john_smithlop@uanataca.com");
+                  formdata.append("mobile_phone_number", "+34999999999");
+                  formdata.append("registration_authority", "124");
+                  formdata.append("profile", "PFnubeQAFCiudadano");
+                  formdata.append("token", "a44765ab8ca04e429a565f02d22179a0");
+                  formdata.append("username", "5057249");
+                  formdata.append("password", "Gy6F89xK");
+                  formdata.append("pin", "t8tr6vkg");
+                  formdata.append("document_front", fileInput.files[0], "sample_folder/img_front.png");
+                  formdata.append("document_rear", fileInput.files[0], "sample_folder/img_rear.png");
+                  formdata.append("document_selfie", fileInput.files[0], "sample_folder/img_selfie.png");
+
+                  var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: formdata,
+                    redirect: 'follow'
+                  };
+
+                  fetch("https://one-shot.developers.uanataca.com/api/v1/request", requestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://one-shot.developers.uanataca.com/api/v1/request"
+
+                  payload={'given_name': 'John',
+                  'surname_1': 'Smith',
+                  'surname_2': 'Lopez',
+                  'id_document_type': 'IDC',
+                  'id_document_country': 'ES',
+                  'serial_number': '12345678A',
+                  'email': 'john_smithlop@uanataca.com',
+                  'mobile_phone_number': '+34999999999',
+                  'registration_authority': '124',
+                  'profile': 'PFnubeQAFCiudadano',
+                  'token': 'a44765ab8ca04e429a565f02d22179a0',
+                  'username': '5057249',
+                  'password': 'Gy6F89xK',
+                  'pin': 't8tr6vkg'}
+                  files=[
+                    ('document_front',('file',open('sample_folder/img_front.png','rb'),'image/png')),
+                    ('document_rear',('file',open('sample_folder/img_rear.png','rb'),'image/png')),
+                    ('document_owner',('file',open('sample_folder/img_selfie.png','rb'),'image/png'))
+                  ]
+                  headers = {
+                    'Content-Type': 'application/json'
+                  }
+
+                  response = requests.request("POST", url, headers=headers, data=payload, files=files)
+
+                  print(response.text)
+        - lang: 'Node.js'
+          source: |
+                  const fs = require('fs');
+                  const FormData = require('form-data');
+                  const fetch = require('node-fetch');
+                  const formData = new FormData();
+
+                  formData.append('given_name', 'John');
+                  formData.append('surname_1', 'Smith');
+                  formData.append('surname_2', 'Lopez');
+                  formData.append('id_document_type', 'IDC');
+                  formData.append('id_document_country', 'ES');
+                  formData.append('serial_number', '12345678A');
+                  formData.append('email', 'john_smithlop@uanataca.com');
+                  formData.append('mobile_phone_number', '+34999999999');
+                  formData.append('registration_authority', '124');
+                  formData.append('profile', 'PFnubeQAFCiudadano');
+                  formData.append('token', 'a44765ab8ca04e429a565f02d22179a0');
+                  formData.append('username', '5057249');
+                  formData.append('password', 'Gy6F89xK');
+                  formData.append('pin', 't8tr6vkg');
+                  formData.append('document_front', fs.createReadStream('sample_folder/img_front.png'));
+                  formData.append('document_rear', fs.createReadStream('sample_folder/img_rear.png'));
+                  formData.append('document_owner', fs.createReadStream('sample_folder/img_selfie.png'));
+
+                  const url = 'https://one-shot.developers.uanataca.com/api/v1/request';
+
+                  const options = {
+                    method: 'POST',
+                    headers: {
+                      Accept: 'text/plain',
+                      'Content-Type': 'multipart/form-data; boundary=---011000010111000001101001'
+                    }
+                  };
+
+                  options.body = formData;
+
+                  fetch(url, options)
+                    .then(res => res.json())
+                    .then(json => console.log(json))
+                    .catch(err => console.error('error:' + err));
+        - lang: 'C#'
+          source: |
+                    var client = new RestClient("https://one-shot.developers.uanataca.com/api/v1/request");
+                    client.Timeout = -1;
+                    var request = new RestRequest(Method.POST);
+                    request.AddHeader("content-type", "multipart/form-data; boundary=----011000010111000001101001");
+                    request.AddParameter("given_name", "John");
+                    request.AddParameter("surname_1", "Smith");
+                    request.AddParameter("surname_2", "Lopez");
+                    request.AddParameter("id_document_type", "IDC");
+                    request.AddParameter("id_document_country", "ES");
+                    request.AddParameter("serial_number", "12345678A");
+                    request.AddParameter("email", "john_smithlop@uanataca.com");
+                    request.AddParameter("mobile_phone_number", "+34999999999");
+                    request.AddParameter("registration_authority", "124");
+                    request.AddParameter("profile", "PFnubeQAFCiudadano");
+                    request.AddParameter("token", "a44765ab8ca04e429a565f02d22179a0");
+                    request.AddParameter("username", "5057249");
+                    request.AddParameter("password", "Gy6F89xK");
+                    request.AddParameter("pin", "t8tr6vkg");
+                    request.AddFile("document_front", "sample_folder/img_front.png");
+                    request.AddFile("document_rear", "sample_folder/img_rear.png");
+                    request.AddFile("document_owner", "sample_folder/img_selfie.png");
+
+                    IRestResponse response = client.Execute(request);
+                    Console.WriteLine(response.Content);
+                             
+  #############
+  /api/v1/request/{pk}:
+    get: 
+      summary: GET REQUEST
+      tags:
+        - Requests
+      description: Retrieve request information with the id obtained in the **CREATE REQUEST** response.
+      produces:
+        - application/json
+      parameters:
+      - in: path
+        name: pk
+        type: string 
+        description: The request unique identifier
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: object
+                description: JSON object with information associated to the request 
+          examples:
+            application/json:
+              {
+                  "status": "200 OK",
+                  "details": {
+                      "citizen_tax_number": null,
+                      "paperless_mode": true,
+                      "organization_rol":,
+                      "birth_country": null,
+                      "birth_city": null,
+                      "mobile_phone_number": "",
+                      "residence_state": null,
+                      "title": null,
+                      "ext_recognition_data": null,
+                      "process_application": null,
+                      "country_name": "ES",
+                      "approving_user": {
+                          "pk": ,
+                          "request": ,
+                          "permission_profile": ,
+                          "registration_authority": 
+                      },
+                      "birth_province": null,
+                      "birth_state": null,
+                      "residence_postal_code": null,
+                      "id_document_number": null,
+                      "smartcard_sn": null,
+                      "secure_element": 2,
+                      "organization_state": null,
+                      "responsible_legal_documents": null,
+                      "id_document_issuer": null,
+                      "profile": "",
+                      "organization_address": null,
+                      "provider_registration_number": null,
+                      "sex": null,
+                      "registering_user": {
+                          "pk": ,
+                          "request": ,
+                          "permission_profile": ,
+                          "registration_authority": 
+                      },
+                      "description": null,
+                      "organization_tax_number": null,
+                      "administrative_unit": null,
+                      "organization_name": null,
+                      "approving_rao": {
+                          "id_document_description": "",
+                          "certificate": {
+                              "profile": "",
+                              "status": 0,
+                              "valid_from": "",
+                              "valid_to": "",
+                              "valid": "VALID",
+                              "revokation_reason": null,
+                              "serial_number": "",
+                              "issuer": "2.5.4.97=VATES-A66721499, CN=UANATACA CA1 DEVEL 2016, OU=AC-UANATACA, O=UANATACA S.A., L=Barcelona (see current address at www.uanataca.com/address), C=ES",
+                              "data": "MIIIATCCBemgAwIBAgIIKKcLpQYyugcwDQYJKoZIhvcNAQELBQAwgb0xCzAJBgNVBAYTAkVTMUQwQgYDVQQHDDtCYXJjZWxvbmEgKHNlZSBjdXJyZW50IGFkZHJlc3MgYXQgd3d3LnVhbmF0YWNhLmNvbS9hZGRyZXNzKTEWMBQGA1UECgwNVUFOQVRBQ0EgUy5BLjEUMBIGA1UECwwLQUMtVUFOQVRBQ0ExIDAeBgNVBAMMF1VBTkFUQUNBIENBMSBERVZFTCAyMDE2MRgwFgYDVQRhDA9WQVRFUy1BNjY3MjE0OTkwHhcNMjAxMjAxMTQ1MjAwWhcNMjIxMjAxMTQ1MjAwWjCBpTELMAkGA1UEBhMCRVMxLDAqBgNVBAsMI0pvbmFzIEdvbnphbGV6IERQUjp3d3cudWFuYXRhY2EuY29tMRswGQYDVQQEDBJQcsOhY3RpY2FzIFBydWViYXMxDjAMBgNVBCoMBUpvbmFzMRgwFgYDVQQFEw9JRENFUy1ZMzY0Njk1N0UxITAfBgNVBAMMGEpvbmFzIFByw6FjdGljYXMgUHJ1ZWJhczCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKxvZH+LeZSEQvej37oShotApnQqlMWG91bLW8JL1XZklAVpvjldUc4UgEewcT+u3vuVbKikTfjw9u94AOu+sRyD9VQ76y5l93jhqquod4aVPpkB0PIc4Tjcr/7hA5heKKCV4fsxI3xnHv/CuNlXDB5jK6o9hkUKMkZl9NpveV4mPFTD+5qqeZJgxxkJFrA7SQSoV6jGnOBmzvPsosOjMEdsRoREsUtPWmkY6qeG470THxbjUmUC+/9ozbnxm1PggaZ8azqDfgD/rzziIYFz5RAvEJOjznShvRRyi11bc+A7z3hyskPjFWxK41coSvH0zmkdwZ2ftGxhxX9gKL0VX1MCAwEAAaOCAxkwggMVMIHXBggrBgEFBQcBAQSByjCBxzBVBggrBgEFBQcwAoZJaHR0cDovL3d3dy51YW5hdGFjYS5jb20vcHVibGljL2Rvd25sb2FkL3RzcF9jZXJ0aWZpY2F0ZXMvc3Vib3JkaW5hdGUxLmNydDA2BggrBgEFBQcwAYYqaHR0cDovL29jc3AxLnVhbmF0YWNhLmNvbS9wdWJsaWMvcGtpL29jc3AvMDYGCCsGAQUFBzABhipodHRwOi8vb2NzcDIudWFuYXRhY2EuY29tL3B1YmxpYy9wa2kvb2NzcC8wHQYDVR0OBBYEFLn/HGQM26X2iyrzB+XqvAb3/YjAMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUysyKpc+kjCJa1vuX90+0Tv3V764wVQYIKwYBBQUHAQMESTBHMAgGBgQAjkYBATALBgYEAI5GAQMCAQ8wLgYGBACORgEFDCRodHRwczovL3d3dy51YW5hdGFjYS5jb20vcHVibGljL2Nwcy8wga4GA1UdIASBpjCBozBBBgsrBgEEAYLxNgEUBTAyMDAGCCsGAQUFBwIBFiRodHRwczovL3d3dy51YW5hdGFjYS5jb20vcHVibGljL2Nwcy8wXgYLKwYBBAGC8TYBAQUwTzBNBggrBgEFBQcCAjBBDD9DZXJ0aWZpY2FkbyBjdWFsaWZpY2FkbyBkZSBQZXJzb25hIEbDrXNpY2EgZW4gSFNNIGNlbnRyYWxpemFkby4wgY8GA1UdHwSBhzCBhDBAoD6gPIY6aHR0cDovL2NybDEudWFuYXRhY2EuY29tL3B1YmxpYy9wa2kvY3JsL0NBMXN1Ym9yZGluYWRhLmNybDBAoD6gPIY6aHR0cDovL2NybDIudWFuYXRhY2EuY29tL3B1YmxpYy9wa2kvY3JsL0NBMXN1Ym9yZGluYWRhLmNybDAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMCIGA1UdEQQbMBmBF2pvbmFzaXNhaWFzOTlAZ21haWwuY29tMA0GCSqGSIb3DQEBCwUAA4ICAQAeuuN7s8OK8YFaAkRjQY9RoX4onQmxBceLiaKjvXs4Dr/p1sHGyN3nutIMa4JhdPC8wNEy1t3O3nDEfsLdF1LyxSe0CZuHnkMlsr2V8uZXjA4xwwUMEBYwEsGapggN0DuZzDKRC6tkD2q1GkiabfH5UPJs4L1k/zcay549CwZ75K2Me/dommlVIN639oiPw55tByCGH/RtR8CO60PqbiKbW2oPdeIOIfVeaaQDFzTNOoFRT/8snzklm8oGSFjf038vUnNh4VL5wQx2xwe53xKTr9kJar51+u3qq+n6vq4iv1VqUqvvybE3UDr+lnJVjWMNXURl0ZfeVslAHFwQKfO8jGjtX5uq4iRGjcAehs8dgtQ4be+zwoP0XVG/LP/+k+uBmDzGiSOozbrHSkGRkJ+pAU9jUroivk3WeUhGgTM7+e9QCGhcK3eUxR6KSY8JkF2kHd5/Vi258NR2AHyYlRgyg/WyJ0/9rT1Mp57uIOh4N7fLG9qMaBGAlI8Kb5JusfI5nCEoRfyGpQTqOX4jI5glT5UNpdmW/4GSXVYIuA/m0NOqnjD6e4ZOmF/O1PlOSIM4pc4u5aWK79CpqPgyR9fMSXheZoFMrfBX5HTQV8JfWWiO8nXDqFT/HwPdTTyLVgKZYv2hWYL91xMCAePaC24QYgXO+g55r7WB6bPRO3hkAw==",
+                              "subject": "CN=Operator Example, 2.5.4.5=IDCES-Y9999999E, 2.5.4.42=Operator, 2.5.4.4=Operator Example, OU=Operator Example DPR:www.uanataca.com, C=ES"
+                          },
+                          "registration_authority": [],
+                          "registration_authority_master": ,
+                          "id_document_number": "",
+                          "given_name": "",
+                          "surname_2": "",
+                          "pk": ,
+                          "surname_1": "",
+                          "id_document_issuer": ""
+                      },
+                      "organization_country": null,
+                      "email": "",
+                      "producing_user": null,
+                      "responsible_second_surname": null,
+                      "responsible_name": null,
+                      "professional_id_number": null,
+                      "residence_address": null,
+                      "responsible_legal_level": null,
+                      "residence_district": null,
+                      "entity_owner_serial_number": null,
+                      "id_responsible_document_type": null,
+                      "residence_city": null,
+                      "subscriber_responsible_serial": null,
+                      "organization_city": null,
+                      "surname_2": "",
+                      "surname_1": "",
+                      "fix_phone_number": null,
+                      "id_responsible_document_number": null,
+                      "validity_time": "1",
+                      "registration": null,
+                      "organization_province": null,
+                      "organization_identifier": null,
+                      "subscriber": null,
+                      "birth_canton": null,
+                      "special_conditions": null,
+                      "serial_number": "",
+                      "scratchcard": "",
+                      "registration_authority": ,
+                      "responsible_serial": null,
+                      "id_document_type": "IDC",
+                      "empowerment": null,
+                      "responsible_registry_data": null,
+                      "id_responsible_document_country": null,
+                      "entity_owner": null,
+                      "pk": ,
+                      "circumstances": null,
+                      "responsible_position": null,
+                      "producing_rao": null,
+                      "organization_email": null,
+                      "limit": null,
+                      "residence": null,
+                      "residence_canton": null,
+                      "citizenship": null,
+                      "organizational_unit_3": null,
+                      "organizational_unit_2": null,
+                      "organizational_unit_1": null,
+                      "organization_postal_code": null,
+                      "responsible_email": null,
+                      "given_name": "John",
+                      "id_responsible_document_issuer": null,
+                      "organization_url": null,
+                      "status": "ENROLLREADY",
+                      "id_document_description": null,
+                      "certificate_set": [],
+                      "residence_province": null,
+                      "responsible_first_surname": null,
+                      "id_document_country": "ES",
+                      "complement_number": null,
+                      "birth_district": null,
+                      "birth_date": null,
+                      "representation": null
+                  }
+              }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X GET \
+                    https://one-shot.developers.uanataca.com/api/v1/request/29571
+        - lang: 'JavaScript'
+          source: |
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/request/29571',
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://one-shot.developers.uanataca.com/api/v1/request/29571"
+
+                  response = requests.get(url)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/request/29571',
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        var request = await client.GetAsync("https://one-shot.developers.uanataca.com/api/v1/request/29571");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }
+  #############
+  /api/v1/otp/{pk}:
+    post: 
+      summary: GENERATE OTP
+      tags:
+        - Requests
+      description: "Generates a One-Time Password (OTP) code for the user. The OTP is sent directly to the user's mobile phone as an SMS message.</br>
+                    <html><blockquote style='background-color:#faf3ac; border-color:#DFDFDF; color:#3b3b3b;'><b>⚠This method is only required and available for requests with Uanataca SMS</b></blockquote></html>"
+      produces:
+        - application/json
+      parameters:
+      - in: path
+        name: pk
+        description: The request unique identifier
+        type: string 
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: string
+                description: OTP sent code confirmation message
+          examples:
+            application/json:
+              {
+                  "status": "200 OK",
+                  "details": "OTP generated"
+              }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X POST \
+                    https://one-shot.developers.uanataca.com/api/v1/otp/29571
+        - lang: 'JavaScript'
+          source: |
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/otp/29571',
+                    {method: 'POST'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://one-shot.developers.uanataca.com/api/v1/otp/29571"
+
+                  response = requests.post(url)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/otp/29571',
+                    {method: 'POST'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        var request = await client.PostAsync("https://one-shot.developers.uanataca.com/api/v1/otp/29571", null);
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }
+  #############
+  /api/v1/sign/{pk}:
+    post: 
+      summary: SIGN
+      tags:
+        - Requests
+      description: Signs all documents associated to a request using a one-time usage certificate generated for the signature request. 
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+      - in: path
+        name: pk
+        description: The request unique identifier
+        type: string 
+        required: true
+      - in: "body"
+        name: "body"
+        schema:
+          $ref: "#/definitions/SignObject"
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: string
+                description: Successful signature(s) confirmation message
+          examples:
+            application/json:
+              {
+                  "status": "200 OK",
+                  "details": "Documents correctly signed"
+              }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X POST \
+                    https://one-shot.developers.uanataca.com/api/v1/sign/29571 \
+                    -H 'Content-Type: application/json' \
+                    -d '{
+                          "secret"   : "052174",
+                          "options": {
+                              "5f04778a-54f6-426a-b204-5573eb01e5da": {
+                                  "position": "300, 100, 500, 150",
+                                  "image": "b0b6370e-8b54-4d8b-ab6f-a002cf08dd28",
+                                  "page": 0
+                              }
+                        }'
+        - lang: 'JavaScript'
+          source: |
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/sign/29571',
+                    {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({
+                          "secret"   : "052174",
+                          "options": {
+                              "5f04778a-54f6-426a-b204-5573eb01e5da": {
+                                  "position": "300, 100, 500, 150",
+                                  "image": "b0b6370e-8b54-4d8b-ab6f-a002cf08dd28",
+                                  "page": 0
+                              }
+                            })
+                    }
+                  );
+
+                  const data = await resp.json();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://one-shot.developers.uanataca.com/api/v1/sign/29571"
+
+                  payload = {
+                              "secret"   : "052174",
+                              "options": {
+                                  "5f04778a-54f6-426a-b204-5573eb01e5da": {
+                                    "position": "300, 100, 500, 150",
+                                    "image": "b0b6370e-8b54-4d8b-ab6f-a002cf08dd28",
+                                    "page": 0
+                              }
+                            }
+
+                  headers = {"Content-Type": "application/json"}
+
+                  response = requests.post(url, json=payload, headers=headers)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/sign/29571',
+                    {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({
+                          "secret"   : "052174",
+                          "options": {
+                              "5f04778a-54f6-426a-b204-5573eb01e5da": {
+                                  "position": "300, 100, 500, 150",
+                                  "image": "b0b6370e-8b54-4d8b-ab6f-a002cf08dd28",
+                                  "page": 0
+                              }
+                            })
+                    }
+                  );
+
+                  const data = await resp.json();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+                  using System.Text;
+                  using Newtonsoft.Json.Linq;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        JObject json = JObject.Parse(@"{
+                          "secret"   : "052174",
+                          "options": {
+                              "5f04778a-54f6-426a-b204-5573eb01e5da": {
+                                  "position": "300, 100, 500, 150",
+                                  "image": "b0b6370e-8b54-4d8b-ab6f-a002cf08dd28",
+                                  "page": 0
+                              }
+                            }");
+                        var postData = new StringContent(json.ToString(), Encoding.UTF8, "application/json");
+                        var request = await client.PostAsync("https://one-shot.developers.uanataca.com/api/v1/sign/29571", postData);
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }
+###### documents ######
+###############################################################################
+
+  /api/v1/document/{pk}:
+    post: 
+      summary: UPLOAD DOCUMENT
+      tags:
+        - Documents
+      description: Uploads a pdf document to be signed. The document is associated to a signature request.
+      produces:
+        - application/json
+      consumes:
+        - multipart/form-data
+      parameters:
+      - in: path
+        name: pk
+        type: string
+        description: The request unique identifier
+        required: true
+      - in: formData
+        name: file
+        type: file
+        description: Local path of the pdf file to be signed
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: string
+                description: The uploaded document id
+          examples:
+            application/json:
+                {
+                    "status": "200 OK",
+                    "details": "a73b1253-838f-4340-8ae8-e0a1524f7472"
+                }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X POST \
+                    https://one-shot.developers.uanataca.com/api/v1/document/29571 \
+                    -H 'Content-Type: multipart/form-data' \
+                    -F file=@sample_folder/document.pdf
+        - lang: 'JavaScript'
+          source: |
+                    var formdata = new FormData();
+                    formdata.append("file", fileInput.files[0], "sample_folder/document.pdf");
+
+                    var requestOptions = {
+                      method: 'POST',
+                      headers: myHeaders,
+                      body: formdata,
+                      redirect: 'follow'
+                    };
+
+                    fetch("https://one-shot.developers.uanataca.com/api/v1/document/29571", requestOptions)
+                      .then(response => response.text())
+                      .then(result => console.log(result))
+                      .catch(error => console.log('error', error));
+        - lang: 'Python'
+          source: |
+                    import requests
+
+                    url = "https://one-shot.developers.uanataca.com/api/v1/document/29571"
+
+                    payload={}
+                    files=[
+                      ('file',('document.pdf',open('sample_folder/document.pdf','rb'),'application/pdf'))
+                    ]
+                    
+                    headers = {"Content-Type": "multipart/form-data"}
+
+                    response = requests.request("POST", url, headers=headers, data=payload, files=files)
+
+                    print(response.text)
+        - lang: 'Node.js'
+          source: |
+                  const fs = require('fs');
+                  const FormData = require('form-data');
+                  const fetch = require('node-fetch');
+                  const formData = new FormData();
+
+                  formData.append('file', fs.createReadStream('sample_folder/document.pdf'));
+  
+                  const url = 'https://one-shot.developers.uanataca.com/api/v1/document/29571';
+
+                  const options = {
+                    method: 'POST',
+                    headers: {
+                      Accept: 'text/plain',
+                      'Content-Type': 'multipart/form-data; boundary=---011000010111000001101001'
+                    }
+                  };
+
+                  options.body = formData;
+
+                  fetch(url, options)
+                    .then(res => res.json())
+                    .then(json => console.log(json))
+                    .catch(err => console.error('error:' + err));
+        - lang: 'C#'
+          source: |
+                  var client = new RestClient("https://one-shot.developers.uanataca.com/api/v1/document/29571");
+                  client.Timeout = -1;
+                  var request = new RestRequest(Method.POST);
+                  request.AddHeader("content-type", "multipart/form-data; boundary=----011000010111000001101001");
+                  request.AddFile("file", "sample_folder/document.pdf");
+  
+                  IRestResponse response = client.Execute(request);
+                  Console.WriteLine(response.Content);
+  #############
+  /api/v1/document/{pk}/{type}/{uid}:
+    get: 
+      summary: RETRIEVE DOCUMENT
+      tags:
+        - Documents
+      description: Retrieves the specified original or signed document.
+      produces:
+        - application/pdf
+      parameters:
+      - in: path
+        name: pk
+        type: string
+        description: The request unique identifier
+        required: true
+      - in: path
+        name: type
+        type: string
+        enum: [original, signed]
+        description: >
+          Types of documents for retrieval:
+           * **original** - The original document
+           * **signed** - The signed document
+        required: true
+      - in: path
+        name: uid
+        type: string 
+        description: The document unique identifier
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          examples:
+            text/plain:
+                " %PDF-1.7\n
+                  %����\n
+                  1 0 obj\n
+                  <</Type/Catalog/Pages 2 0 R/Lang(es-ES) /StructTreeRoot 10 0 R/MarkInfo<</Marked true>>/Metadata 26 0 R/ViewerPreferences 27 0 R>>\n
+                  endobj\n\n
+
+                  2 0 obj\n
+                  <</Type/Pages/Count 1/Kids[ 3 0 R] >>\n
+                  endobj\n\n
+
+                  3 0 obj\n
+                  <</Type/Page/Parent 2 0 R/Resources<</Font<</F1 5 0 R>>/ExtGState<</GS7 7 0 R/GS8 8 0 R>>/ProcSet[/PDF/Text/ImageB/ImageC/ImageI] >>/MediaBox[ 0 0 595.32 841.92] /Contents 4 0 R/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>/Tabs/S/StructParents 0>>\n
+                  endobj\n
+                  (...)\n
+                "
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X GET \
+                    https://one-shot.developers.uanataca.com/api/v1/document/29571/signed/a73b1253-838f-4340-8ae8-e0a1524f7472
+        - lang: 'JavaScript'
+          source: |
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/document/29571/signed/a73b1253-838f-4340-8ae8-e0a1524f7472',
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://one-shot.developers.uanataca.com/api/v1/document/29571/signed/a73b1253-838f-4340-8ae8-e0a1524f7472"
+
+                  response = requests.get(url)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/document/29571/signed/a73b1253-838f-4340-8ae8-e0a1524f7472',
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        var request = await client.GetAsync("https://one-shot.developers.uanataca.com/api/v1/document/29571/signed/a73b1253-838f-4340-8ae8-e0a1524f7472");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }            
+  #############              
+    delete: 
+      summary: DELETE DOCUMENT
+      tags:
+        - Documents
+      description: Deletes the specified original or signed document.
+      produces:
+        - application/json
+      parameters:
+      - in: path
+        name: pk
+        type: string
+        description: The request unique identifier
+        required: true
+      - in: path
+        name: type
+        type: string
+        enum: [original, signed]
+        description: >
+          Types of documents for retrieval:
+           * **original** - The original document
+           * **signed** - The signed document
+        required: true
+      - in: path
+        name: uid
+        type: string 
+        description: The document unique identifier
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: string
+                description: Successful document deletion confirmation message
+          examples:
+            application/json:
+                {
+                    "status": "200 OK",
+                    "details": "Document successfully deleted"
+                }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X DELETE \
+                    https://one-shot.developers.uanataca.com/api/v1/document/29571/signed/a73b1253-838f-4340-8ae8-e0a1524f7472
+        - lang: 'JavaScript'
+          source: |
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/document/29571/signed/a73b1253-838f-4340-8ae8-e0a1524f7472',
+                    {method: 'DELETE'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://one-shot.developers.uanataca.com/api/v1/document/29571/signed/a73b1253-838f-4340-8ae8-e0a1524f7472"
+
+                  response = requests.delete(url)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/document/29571/signed/a73b1253-838f-4340-8ae8-e0a1524f7472',
+                    {method: 'DELETE'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        var request = await client.DeleteAsync("https://one-shot.developers.uanataca.com/api/v1/document/29571/signed/a73b1253-838f-4340-8ae8-e0a1524f7472");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }            
+  #############              
+  /api/v1/documents/{pk}:
+    get: 
+      summary: LIST DOCUMENTS
+      tags:
+        - Documents
+      description: Lists all documents associated to a specific request.
+      produces:
+        - application/json
+      parameters:
+      - in: path
+        name: pk
+        type: string
+        description: The request unique identifier
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                description: A JSON object containing the document id object
+                properties:
+                  docid:
+                    description: Document related information
+                    properties:
+                      upload_date: 
+                        type: string
+                      ext:
+                        type: string
+                      size:
+                        type: string
+                      mime:
+                        type: string
+                      filename:
+                        type: string    
+          examples:
+            application/json:
+              {
+                  "status": "200 OK",
+                  "details": {
+                      "5f04778a-54f6-426a-b204-5573eb01e5da": {
+                          "upload_date": "11/11/2019 18:03:07",
+                          "ext": ".pdf",
+                          "size": 128012,
+                          "mime": "application/pdf",
+                          "filename": "test-11.pdf"
+                      },
+                      "b1902f56-ca7b-4ef4-8741-242dc211c037": {
+                          "upload_date": "11/11/2019 18:03:12",
+                          "ext": ".pdf",
+                          "size": 100337,
+                          "mime": "application/pdf",
+                          "filename": "test.pdf"
+                      }
+                  }
+              }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X GET \
+                    https://one-shot.developers.uanataca.com/api/v1/documents/29571
+        - lang: 'JavaScript'
+          source: |
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/documents/29571',
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://one-shot.developers.uanataca.com/api/v1/documents/29571"
+
+                  response = requests.get(url)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/documents/29571',
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        var request = await client.GetAsync("https://one-shot.developers.uanataca.com/api/v1/documents/29571");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }
+  #############
+    delete: 
+      summary: DELETE ALL DOCUMENTS
+      tags:
+        - Documents
+      description: Deletes all documents associated to a specific request.
+      produces:
+        - application/json
+      parameters:
+      - in: path
+        name: pk
+        type: string
+        description: The request unique identifier
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: string
+                description: Successful document list deletion confirmation message
+          examples:
+            application/json:
+              {
+                  "status": "200 OK",
+                  "details": "Documents deleted successfully"
+              }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X DELETE \
+                    https://one-shot.developers.uanataca.com/api/v1/documents/29571
+        - lang: 'JavaScript'
+          source: |
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/documents/29571',
+                    {method: 'DELETE'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://one-shot.developers.uanataca.com/api/v1/documents/29571"
+
+                  response = requests.delete(url)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/documents/29571',
+                    {method: 'DELETE'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        var request = await client.DeleteAsync("https://one-shot.developers.uanataca.com/api/v1/documents/29571");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }
+  #############
+  /api/v1/document/{pk}/contract:
+    get: 
+      summary: RETRIEVE CONTRACT
+      tags:
+        - Documents
+      description: Retrieve the service contract regarding the user's digital certificate issuing.
+      produces:
+        - application/pdf
+      parameters:
+      - in: path
+        name: pk
+        type: string
+        description: The request unique identifier
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          examples:
+            text/plain:
+                " %PDF-1.7\n
+                  %����\n
+                  1 0 obj\n
+                  <</Type/Catalog/Pages 2 0 R/Lang(es-ES) /StructTreeRoot 10 0 R/MarkInfo<</Marked true>>/Metadata 26 0 R/ViewerPreferences 27 0 R>>\n
+                  endobj\n\n
+
+                  2 0 obj\n
+                  <</Type/Pages/Count 1/Kids[ 3 0 R] >>\n
+                  endobj\n\n
+
+                  3 0 obj\n
+                  <</Type/Page/Parent 2 0 R/Resources<</Font<</F1 5 0 R>>/ExtGState<</GS7 7 0 R/GS8 8 0 R>>/ProcSet[/PDF/Text/ImageB/ImageC/ImageI] >>/MediaBox[ 0 0 595.32 841.92] /Contents 4 0 R/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>/Tabs/S/StructParents 0>>\n
+                  endobj\n
+                  (...)\n
+                "
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X GET \
+                    https://one-shot.developers.uanataca.com/api/v1/document/29571/contract
+        - lang: 'JavaScript'
+          source: |
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/document/29571/contract',
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://one-shot.developers.uanataca.com/api/v1/document/29571/contract"
+
+                  response = requests.get(url)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/document/29571/contract',
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        var request = await client.GetAsync("https://one-shot.developers.uanataca.com/api/v1/document/29571/contract");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }
+###### images ######
+###############################################################################
+
+  /api/v1/image:
+    post: 
+      summary: UPLOAD IMAGE
+      tags:
+        - Images
+      description: Uploads an image for using in a visual graphic signature.
+      produces:
+        - application/json
+      consumes:
+        - multipart/form-data
+      parameters:
+      - in: formData
+        name: image
+        type: file
+        description: The image to add in the visual graphic signature in PNG format
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: string
+                description: The uploaded image id
+          examples:  
+            application/json:
+              {
+                  "status": "200 OK",
+                  "details": "bfd74f73-7b22-40a6-ad37-6fc867263309"
+              }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X POST \
+                    https://one-shot.developers.uanataca.com/api/v1/image \
+                    -H 'Content-Type: multipart/form-data' \
+                    -F image=@sample_folder/image.png
+        - lang: 'JavaScript'
+          source: |
+                    var formdata = new FormData();
+                    formdata.append("image", fileInput.files[0], "sample_folder/image.png");
+
+                    var requestOptions = {
+                      method: 'POST',
+                      headers: myHeaders,
+                      body: formdata,
+                      redirect: 'follow'
+                    };
+
+                    fetch("https://one-shot.developers.uanataca.com/api/v1/image", requestOptions)
+                      .then(response => response.text())
+                      .then(result => console.log(result))
+                      .catch(error => console.log('error', error));
+        - lang: 'Python'
+          source: |
+                    import requests
+
+                    url = "https://one-shot.developers.uanataca.com/api/v1/image"
+
+                    payload={}
+                    files=[
+                      ('image',('image.png',open('sample_folder/image.png','rb'),'application/pdf'))
+                    ]
+                    
+                    headers = {"Content-Type": "multipart/form-data"}
+
+                    response = requests.request("POST", url, headers=headers, data=payload, files=files)
+
+                    print(response.text)
+        - lang: 'Node.js'
+          source: |
+                  const fs = require('fs');
+                  const FormData = require('form-data');
+                  const fetch = require('node-fetch');
+                  const formData = new FormData();
+
+                  formData.append('image', fs.createReadStream('sample_folder/document.pdf'));
+  
+                  const url = 'https://one-shot.developers.uanataca.com/api/v1/images';
+
+                  const options = {
+                    method: 'POST',
+                    headers: {
+                      Accept: 'text/plain',
+                      'Content-Type': 'multipart/form-data; boundary=---011000010111000001101001'
+                    }
+                  };
+
+                  options.body = formData;
+
+                  fetch(url, options)
+                    .then(res => res.json())
+                    .then(json => console.log(json))
+                    .catch(err => console.error('error:' + err));
+        - lang: 'C#'
+          source: |
+                  var client = new RestClient("https://one-shot.developers.uanataca.com/api/v1/images");
+                  client.Timeout = -1;
+                  var request = new RestRequest(Method.POST);
+                  request.AddHeader("content-type", "multipart/form-data; boundary=----011000010111000001101001");
+                  request.AddFile("image", "sample_folder/document.pdf");
+  
+                  IRestResponse response = client.Execute(request);
+                  Console.WriteLine(response.Content);
+  #############
+  /api/v1/image/{uid}:
+    get: 
+      summary: RETRIEVE IMAGE
+      tags:
+        - Images
+      description: Retrieves a previously uploaded image.
+      produces:
+        - application/json
+      parameters:
+      - in: path
+        name: uid
+        type: string
+        description: The image unique identifier
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          examples:
+            text/png:
+               The retrieved image in png format
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X GET \
+                    https://one-shot.developers.uanataca.com/api/v1/image/bfd74f73-7b22-40a6-ad37-6fc867263309
+        - lang: 'JavaScript'
+          source: |
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/image/bfd74f73-7b22-40a6-ad37-6fc867263309',
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://one-shot.developers.uanataca.com/api/v1/image/bfd74f73-7b22-40a6-ad37-6fc867263309"
+
+                  response = requests.get(url)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/image/bfd74f73-7b22-40a6-ad37-6fc867263309',
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        var request = await client.GetAsync("https://one-shot.developers.uanataca.com/api/v1/image/bfd74f73-7b22-40a6-ad37-6fc867263309");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }   
+    delete: 
+      summary: DELETE IMAGE
+      tags:
+        - Images
+      description: Deletes a previously uploaded image.
+      produces:
+        - application/json
+      parameters:
+      - in: path
+        name: uid
+        type: string
+        description: The image unique identifier
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: string
+                description: The successful image deletion confirmation message
+          examples:
+            application/json:
+              {
+                  "status": "200 OK",
+                  "details": "Image deleted"
+              }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X DELETE \
+                    https://one-shot.developers.uanataca.com/api/v1/image/bfd74f73-7b22-40a6-ad37-6fc867263309
+        - lang: 'JavaScript'
+          source: |
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/image/bfd74f73-7b22-40a6-ad37-6fc867263309',
+                    {method: 'DELETE'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://one-shot.developers.uanataca.com/api/v1/image/bfd74f73-7b22-40a6-ad37-6fc867263309"
+
+                  response = requests.get(url)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/image/bfd74f73-7b22-40a6-ad37-6fc867263309',
+                    {method: 'DELETE'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        var request = await client.DeleteAsync("https://one-shot.developers.uanataca.com/api/v1/image/bfd74f73-7b22-40a6-ad37-6fc867263309");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }
+  #############
+  /api/v1/images:
+    get: 
+      summary: LIST IMAGES
+      tags:
+        - Images
+      description: Lists all uploaded images.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                description: A JSON object containing the image id object
+                properties:
+                  imgid:
+                    description: Image related information
+                    properties:
+                      upload_date: 
+                        type: string
+                      ext:
+                        type: string
+                      size:
+                        type: string
+                      mime:
+                        type: string
+                      filename:
+                        type: string  
+          examples:
+            application/json:
+              {
+                  "status": "200 OK",
+                  "details": {
+                      "{imgid_1}": {
+                          "upload_date": "",
+                          "ext": ".png",
+                          "size": [   ],
+                          "mime": "image/png",
+                          "filename": "image_1.png"
+                      },
+                      "{imgid_2}": {
+                          "upload_date": "",
+                          "ext": ".png",
+                          "size": [   ],
+                          "mime": "image/png",
+                          "filename": "image_2.png"
+                      },
+                      "{imgid_N}": {
+                          "upload_date": "",
+                          "ext": ".png",
+                          "size": [   ],
+                          "mime": "image/png",
+                          "filename": "image_N.png"
+                      }                      
+                  }
+              }
+    x-codeSamples:
+      - lang: 'curl'
+        source: |
+                curl -i -X GET \
+                  https://one-shot.developers.uanataca.com/api/v1/images
+      - lang: 'JavaScript'
+        source: |
+                const resp = await fetch(
+                  'https://one-shot.developers.uanataca.com/api/v1/images',
+                  {method: 'GET'}
+                );
+
+                const data = await resp.text();
+                console.log(data);
+      - lang: 'Python'
+        source: |
+                import requests
+
+                url = "https://one-shot.developers.uanataca.com/api/v1/images"
+
+                response = requests.get(url)
+
+                data = response.json()
+                print(data)
+      - lang: 'Node.js'
+        source: |
+                const fetch = require('node-fetch');
+
+                const resp = await fetch(
+                  'https://one-shot.developers.uanataca.com/api/v1/images',
+                  {method: 'GET'}
+                );
+
+                const data = await resp.text();
+                console.log(data);
+      - lang: 'C#'
+        source: |
+                using System;
+                using System.Net.Http;
+                using System.Threading.Tasks;
+
+                public class Program
+                {
+                  public static async Task Main(string[] args)
+                  {
+                    using (var client = new HttpClient())
+                    {
+                      var request = await client.GetAsync("https://one-shot.developers.uanataca.com/api/v1/images");
+                      var response = await request.Content.ReadAsStringAsync();
+
+                      Console.WriteLine(response);
+                    }
+                  }
+                }
+    #############
+    delete: 
+      summary: DELETE ALL IMAGES
+      tags:
+        - Images
+      description: Deletes all uploaded images.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: string
+                description: The successful image list deletion confirmation message
+          examples:
+            application/json:
+              {
+                  "status": "200 OK",
+                  "details": "Images deleted successfully"
+              }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X DELETE \
+                    https://one-shot.developers.uanataca.com/api/v1/images
+        - lang: 'JavaScript'
+          source: |
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/images',
+                    {method: 'DELETE'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://one-shot.developers.uanataca.com/api/v1/images"
+
+                  response = requests.delete(url)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const resp = await fetch(
+                    'https://one-shot.developers.uanataca.com/api/v1/images',
+                    {method: 'DELETE'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        var request = await client.DeleteAsync("https://one-shot.developers.uanataca.com/api/v1/images");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }
+###### definitions ######
+###############################################################################
+
+
+definitions:
+    TokenObject:
+        type: "object"
+        required:
+          - username
+        properties:
+            username:
+                type: "string"
+                description: "The RAO's digital identity username"
+            password:
+                type: "string"
+                description: "The RAO's digital identity password"
+            pin:
+                type: "string"
+                description: "The RAO's digital identity PIN"
+    SignObject:
+        type: "object"
+        required:
+          - secret
+        properties:
+            secret:
+                type: "string"
+                description: "The OTP code sent to the user.<br>
+                              For external authenticacion method, a customer code is provided"
+            ext_unlock_type:
+                type: "string"
+                description: "The external authentication method type.
+                              This field is required for requests using external authenticacion methods"
+            ext_unlock_value:
+                type: "string"
+                description: "The id of the external authenticacion request.
+                              This field is required for requests using external authenticacion methods"
+            options:
+                type: "object"
+                description:  Visual graphic signature properties.<br>
+                              **It is required prior to uploading an image.** See <a href='#tag/Images'>images</a> api reference <br>
+                              <a href="#section/Video-tutorials/Signature-Image-Configuration"><img src="https://raw.githubusercontent.com/UANATACA/ONESHOT-REPO/main/img4.png"></a><a href="#section/Video-tutorials/Signature-Image-Configuration"><b>&nbsp;Watch on video!</b></a>
+                properties:
+                    position:
+                        type: "string"
+                        description: "The coordinates in points (pt) for signature image position and size, starting from bottom left corner (x1,y1,x2,y2).<br>
+                                      1px = 0.75pt"
+                    page:
+                        type: "number"
+                        description: "The document page where the signature will be placed. The first page starts in `0`"
+                    image:
+                        type: "string"
+                        description: "The previous uploaded image id"
