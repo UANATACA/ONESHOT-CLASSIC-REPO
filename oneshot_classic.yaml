@@ -845,7 +845,7 @@ paths:
                     -F pin=t8tr6vkg \
                     -F document_front=@sample_folder/img_front.png \
                     -F document_rear=@sample_folder/img_rear.png \
-                    -F document_owner=@sample_folder/img_selfie.png \
+                    -F document_owner=@sample_folder/img_owner.png \
         - lang: 'JavaScript'
           source: |
                   var formdata = new FormData();
@@ -865,7 +865,7 @@ paths:
                   formdata.append("pin", "t8tr6vkg");
                   formdata.append("document_front", fileInput.files[0], "sample_folder/img_front.png");
                   formdata.append("document_rear", fileInput.files[0], "sample_folder/img_rear.png");
-                  formdata.append("document_selfie", fileInput.files[0], "sample_folder/img_selfie.png");
+                  formdata.append("document_owner", fileInput.files[0], "sample_folder/img_owner.png");
 
                   var requestOptions = {
                     method: 'POST',
@@ -901,7 +901,7 @@ paths:
                   files=[
                     ('document_front',('file',open('sample_folder/img_front.png','rb'),'image/png')),
                     ('document_rear',('file',open('sample_folder/img_rear.png','rb'),'image/png')),
-                    ('document_owner',('file',open('sample_folder/img_selfie.png','rb'),'image/png'))
+                    ('document_owner',('file',open('sample_folder/img_owner.png','rb'),'image/png'))
                   ]
                   headers = {
                     'Content-Type': 'application/json'
@@ -934,7 +934,7 @@ paths:
                   formData.append('pin', 't8tr6vkg');
                   formData.append('document_front', fs.createReadStream('sample_folder/img_front.png'));
                   formData.append('document_rear', fs.createReadStream('sample_folder/img_rear.png'));
-                  formData.append('document_owner', fs.createReadStream('sample_folder/img_selfie.png'));
+                  formData.append('document_owner', fs.createReadStream('sample_folder/img_owner.png'));
 
                   var url = 'https://one-shot.developers.uanataca.com/api/v1/request';
 
@@ -972,7 +972,7 @@ paths:
                     request.AddParameter("pin", "t8tr6vkg");
                     request.AddFile("document_front", "sample_folder/img_front.png");
                     request.AddFile("document_rear", "sample_folder/img_rear.png");
-                    request.AddFile("document_owner", "sample_folder/img_selfie.png");
+                    request.AddFile("document_owner", "sample_folder/img_owner.png");
 
                     IRestResponse response = client.Execute(request);
                     Console.WriteLine(response.Content);
