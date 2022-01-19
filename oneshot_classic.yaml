@@ -952,31 +952,44 @@ paths:
                     .catch(err => console.error('error:' + err));
         - lang: 'C#'
           source: |
-                    var client = new RestClient("https://one-shot.developers.uanataca.com/api/v1/request");
-                    client.Timeout = -1;
-                    var request = new RestRequest(Method.POST);
-                    request.AddHeader("content-type", "multipart/form-data; boundary=----011000010111000001101001");
-                    request.AddParameter("given_name", "John");
-                    request.AddParameter("surname_1", "Smith");
-                    request.AddParameter("surname_2", "Lopez");
-                    request.AddParameter("id_document_type", "IDC");
-                    request.AddParameter("id_document_country", "ES");
-                    request.AddParameter("serial_number", "12345678A");
-                    request.AddParameter("email", "john_smithlop@uanataca.com");
-                    request.AddParameter("mobile_phone_number", "+34999999999");
-                    request.AddParameter("registration_authority", "124");
-                    request.AddParameter("profile", "PFnubeQAFCiudadano");
-                    request.AddParameter("token", "a44765ab8ca04e429a565f02d22179a0");
-                    request.AddParameter("username", "5057249");
-                    request.AddParameter("password", "Gy6F89xK");
-                    request.AddParameter("pin", "t8tr6vkg");
-                    request.AddFile("document_front", "sample_folder/img_front.png");
-                    request.AddFile("document_rear", "sample_folder/img_rear.png");
-                    request.AddFile("document_owner", "sample_folder/img_owner.png");
+                  using System;
+                  using System.Threading.Tasks;
+                  using RestSharp;
 
-                    IRestResponse response = client.Execute(request);
-                    Console.WriteLine(response.Content);
-                             
+                  public class Program
+                  {
+                    public static Task Main(string[] args)
+                      {
+                          var client = new RestClient("https://one-shot.developers.uanataca.com/api/v1/request");
+                          client.Timeout = -1;
+
+                          var request = new RestRequest(Method.POST);
+                          request.AlwaysMultipartFormData = true;
+                          request.AddHeader("content-type", "multipart/form-data");
+                          request.AddParameter("given_name", "John");
+                          request.AddParameter("surname_1", "Smith");
+                          request.AddParameter("surname_2", "Lopez");
+                          request.AddParameter("id_document_type", "IDC");
+                          request.AddParameter("id_document_country", "ES");
+                          request.AddParameter("serial_number", "12345678A");
+                          request.AddParameter("email", "john_smithlop@uanataca.com");
+                          request.AddParameter("mobile_phone_number", "+34999999999");
+                          request.AddParameter("registration_authority", "124");
+                          request.AddParameter("profile", "PFnubeQAFCiudadano");
+                          request.AddParameter("token", "a44765ab8ca04e429a565f02d22179a0");
+                          request.AddParameter("username", "5057249");
+                          request.AddParameter("password", "Gy6F89xK");
+                          request.AddParameter("pin", "t8tr6vkg");
+                          request.AddFile("document_front", "sample_folder/img_front.png", "image/png");
+                          request.AddFile("document_rear", "sample_folder/img_rear.png", "image/png");
+                          request.AddFile("document_owner", "sample_folder/img_owner.png", "image/png");
+
+                          IRestResponse response = client.Execute(request);
+
+                          Console.WriteLine(response.Content);
+                          return Task.CompletedTask;
+                      }
+                  }                           
   #############
   /api/v1/request/{pk}:
     get: 
@@ -1539,14 +1552,30 @@ paths:
                     .catch(err => console.error('error:' + err));
         - lang: 'C#'
           source: |
-                  var client = new RestClient("https://one-shot.developers.uanataca.com/api/v1/document/29571");
-                  client.Timeout = -1;
-                  var request = new RestRequest(Method.POST);
-                  request.AddHeader("content-type", "multipart/form-data; boundary=----011000010111000001101001");
-                  request.AddFile("file", "sample_folder/document.pdf");
-  
-                  IRestResponse response = client.Execute(request);
-                  Console.WriteLine(response.Content);
+                  using System;
+                  using System.Threading.Tasks;
+                  using RestSharp;
+
+                  public class Program
+                  {
+                    public static Task Main(string[] args)
+                      {
+                          var client = new RestClient("https://one-shot.developers.uanataca.com/api/v1/document/29571");
+                          client.Timeout = -1;
+
+                          string docPath = "sample_folder/document.pdf";
+
+                          var request = new RestRequest(Method.POST);
+                          request.AlwaysMultipartFormData = true;
+                          request.AddHeader("content-type", "multipart/form-data");
+                          request.AddFile("file", docPath, application/pdf);
+
+                          IRestResponse response = client.Execute(request);
+
+                          Console.WriteLine(response.Content);
+                          return Task.CompletedTask;
+                      }
+                  }
   #############
   /api/v1/document/{pk}/{type}/{uid}:
     get: 
@@ -2142,14 +2171,30 @@ paths:
                     .catch(err => console.error('error:' + err));
         - lang: 'C#'
           source: |
-                  var client = new RestClient("https://one-shot.developers.uanataca.com/api/v1/images");
-                  client.Timeout = -1;
-                  var request = new RestRequest(Method.POST);
-                  request.AddHeader("content-type", "multipart/form-data; boundary=----011000010111000001101001");
-                  request.AddFile("image", "sample_folder/image.png");
-  
-                  IRestResponse response = client.Execute(request);
-                  Console.WriteLine(response.Content);
+                  using System;
+                  using System.Threading.Tasks;
+                  using RestSharp;
+
+                  public class Program
+                  {
+                    public static Task Main(string[] args)
+                      {
+                          var client = new RestClient("https://one-shot.developers.uanataca.com/api/v1/images");
+                          client.Timeout = -1;
+
+                          string imgPath = "./path_to_img/image.png"; // path to image
+
+                          var request = new RestRequest(Method.POST);
+                          request.AlwaysMultipartFormData = true;
+                          request.AddHeader("content-type", "multipart/form-data");
+                          request.AddFile("image", imgPath, "image/png");
+
+                          IRestResponse response = client.Execute(request);
+
+                          Console.WriteLine(response.Content);
+                          return Task.CompletedTask;
+                      }
+                  }
   #############
   /api/v1/image/{uid}:
     get: 
