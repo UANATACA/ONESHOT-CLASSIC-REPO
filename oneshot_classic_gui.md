@@ -8,6 +8,9 @@ It is designed so that no sensitive data has to be sent away from your premises,
 Electronic signatures include a time stamp, providing to the document signature with a reliable date and time.
 <br></br>
 Through this system we offer our One-shot Signature service, an autonomous solution adapting to multiple use cases.
+<br></br>
+We also provide the option to perform an asynchronous workflow, this means that you are able to retrieve and show the request status changes while in paralel, workflow is being executed behind.
+This provides final user transparency about workflow time lapsed.
 </div>
 
 # How it works
