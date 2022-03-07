@@ -674,6 +674,14 @@ paths:
         name: document_owner
         description: A selfie image of the user holding the identifying document below his/her chin (JPEG or PNG).
         type: file
+      - in: formData
+        name: useasync
+        description: This parameter enables the One-Shot asynchronous workflow. When set to true, the callback parameter can be set by specifying a Webhook URL.
+        type: boolean
+      - in: formData
+        name: callback
+        description: The Webhook URL for the asynchronous service.
+        type: string
       responses:
         201:
           description: Successful Response
@@ -1116,6 +1124,46 @@ paths:
                     }
                   }
   #############
+  /api/v1/async/status/{pk}:
+    get: 
+      summary: GET REQUEST ASYNCHRONOUS
+      tags:
+        - Requests
+      description: Shows the status of a Request executed under asynchronous mode.
+      produces:
+        - application/json
+      parameters:
+      - in: path
+        name: pk
+        type: string 
+        description: The request unique identifier
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: object
+                description: JSON object with information associated to the request. If useasync parameter is not set or set to false, this call will show an "Unknown" status message.
+          examples:
+            application/json:
+              {
+                  "status": "200 OK",
+                  "details": {
+                      "approved"
+                    }
+              }
+      x-codeSamples:
+        - lang: 'curl'
+          source: /
+                  curl -i -X GET \
+                    https://one-shot.developers.uanataca.com/api/v1/async/status/29571
+  #############
   /api/v1/otp/{pk}:
     post: 
       summary: GENERATE OTP
@@ -1326,6 +1374,60 @@ paths:
                       }
                     }
                   }
+#############
+  /api/v1/async/sign/{pk}:
+    post: 
+      summary: ASYNCHRONOUS SIGN
+      tags:
+        - Requests
+      description: (Asynchronous mode)Signs all documents associated to a request using a one-time usage certificate generated for the signature request. 
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+      - in: path
+        name: pk
+        description: The request unique identifier
+        type: string 
+        required: true
+      - in: "body"
+        name: "body"
+        schema:
+          $ref: "#/definitions/SignObject"
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: string
+                description: Successful signature(s) confirmation message
+          examples:
+            application/json:
+              {
+                  "status": "200 OK",
+                  "details": "Documents correctly signed"
+              }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X POST \
+                    https://one-shot.developers.uanataca.com/api/v1/async/sign/29571 \
+                    -H 'Content-Type: application/json' \
+                    -d '{
+                          "secret"   : "052174",
+                          "options": {
+                              "5f04778a-54f6-426a-b204-5573eb01e5da": {
+                                  "position": "300, 100, 500, 150",
+                                  "image": "b0b6370e-8b54-4d8b-ab6f-a002cf08dd28",
+                                  "page": 0
+                              }
+                        }'
 ###### documents ######
 ###############################################################################
 

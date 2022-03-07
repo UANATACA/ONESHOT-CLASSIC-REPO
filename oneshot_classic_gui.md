@@ -9,7 +9,7 @@ Electronic signatures include a time stamp, providing to the document signature 
 <br></br>
 Through this system we offer our One-shot Signature service, an autonomous solution adapting to multiple use cases.
 <br></br>
-We also provide the option to perform an asynchronous workflow, this means that you are able to retrieve and show the request status changes while in paralel, workflow is being executed behind.
+We also provide the option to perform an <a href="#tag/Requests/paths/~1api~1v1~1async~1sign~1{pk}/post">asynchronous</a> workflow, this means that you are able to retrieve and show the request status changes while in paralel, workflow is being executed behind.
 This provides final user transparency about workflow time lapsed.
 </div>
 
